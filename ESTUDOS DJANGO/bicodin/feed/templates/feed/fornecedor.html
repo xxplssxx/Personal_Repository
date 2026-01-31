@@ -1,0 +1,17 @@
+{%extends "feed/base.html"%}
+{%block content%}
+
+
+   <h2>Fornecedor: {{ fornecedordb }}</h2>
+   <ul>
+        {%for post in postagemdb%}
+            <li>{{post}}</li>
+        {%empty%}
+            <li>Não tem postagens ainda!</li>
+        {%endfor%}
+ 
+
+   </ul>
+
+
+{%endblock content%}

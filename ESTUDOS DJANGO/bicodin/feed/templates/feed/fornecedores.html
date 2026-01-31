@@ -1,0 +1,13 @@
+{% extends "feed/base.html" %}
+{% block content %}
+
+    <ul>
+    {% for fornecedor in fornecedordb %}
+        <li><a href="{% url 'fornecedor' fornecedor.id %}">{{ fornecedor }}</a></li>
+    {% empty %}
+        <li>Não tem fornecedores ainda.</li>
+    {% endfor %}
+    </ul>
+
+
+{% endblock content %}
