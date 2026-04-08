@@ -1,0 +1,6 @@
+[Running] cd "/home/pedrolucas/ADS/Personal_Repository/MÓDULO II/EDD/FEVEREIRO/" && gcc bubble_sort_pequeno.c -o bubble_sort_pequeno && "/home/pedrolucas/ADS/Personal_Repository/MÓDULO II/EDD/FEVEREIRO/"bubble_sort_pequeno
+Array pequeno original: 79 10 80 74 22 57 11 0 46 51 
+Array pequeno organizado: 0 10 11 22 46 51 57 74 79 80 
+
+[Done] exited with code=0 in 0.32 seconds
+

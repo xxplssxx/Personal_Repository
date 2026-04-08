@@ -1,0 +1,6 @@
+[Running] cd "/home/pedrolucas/ADS/Personal_Repository/MÓDULO II/EDD/FEVEREIRO/" && gcc selectionSortPequeno.c -o selectionSortPequeno && "/home/pedrolucas/ADS/Personal_Repository/MÓDULO II/EDD/FEVEREIRO/"selectionSortPequeno
+Array pequeno original: 7 82 2 67 43 47 30 58 43 99 
+Array pequeno organizado: 2 7 30 43 43 47 58 67 82 99 
+
+[Done] exited with code=0 in 0.313 seconds
+

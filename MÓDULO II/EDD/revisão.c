@@ -44,8 +44,6 @@ void Questao4(){
     }
 }
 
-
-
 int main(){
     /*Questões de Função*/
     int i, j, matriz[3][3];
@@ -56,7 +54,6 @@ int main(){
     printf("%.2f\n", Mediaaritmetica(9,8,9));
     printf("%.2f\n", ConverterCelsius(30));
   
-
 
     return 0;
 }
