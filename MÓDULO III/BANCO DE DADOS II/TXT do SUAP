@@ -1,0 +1,133 @@
+-- Arquivo de apoio para popular o banco aluno_db
+-- PressupÃµe que as tabelas jÃ¡ foram criadas conforme os slides:
+--   departamento(id, nome, sigla)
+--   funcionario(id, nome, cargo, salario, departamento_id)
+-- Execute no Query Tool do pgAdmin conectado ao banco aluno_db.
+
+BEGIN;
+
+-- InserÃ§Ã£o adicional de departamentos
+INSERT INTO departamento (nome, sigla) VALUES
+('Tecnologia da InformaÃ§Ã£o', 'TI'),
+('Recursos Humanos', 'RH'),
+('Financeiro', 'FIN'),
+('LogÃ­stica', 'LOG'),
+('Marketing', 'MKT'),
+('Atendimento', 'ATD');
+
+-- InserÃ§Ã£o adicional de 36 funcionÃ¡rios relacionados aos departamentos
+INSERT INTO funcionario (nome, cargo, salario, departamento_id) VALUES
+('Ana Paula Ribeiro', 'Analista de Sistemas', 5200.00, 1),
+('Bruno Henrique Lima', 'Desenvolvedor Back-end', 6100.00, 1),
+('Carla Mendes Souza', 'Desenvolvedora Front-end', 5800.00, 1),
+('Daniel Costa Alves', 'Administrador de Redes', 5500.00, 1),
+('Eduarda Fernandes', 'Suporte TÃ©cnico', 3200.00, 1),
+('Felipe Rocha Gomes', 'DBA JÃºnior', 4700.00, 1),
+
+('Gabriela Santos', 'Analista de RH', 4100.00, 2),
+('Henrique Martins', 'Assistente de RH', 2600.00, 2),
+('Isabela Nogueira', 'Recrutadora', 3900.00, 2),
+('JoÃ£o Pedro Silva', 'Treinamento e Desenvolvimento', 4300.00, 2),
+('Karina Barros', 'Departamento Pessoal', 4000.00, 2),
+('Lucas Oliveira', 'Auxiliar Administrativo', 2300.00, 2),
+
+('Mariana Lopes', 'Analista Financeira', 4600.00, 3),
+('Nicolas Ferreira', 'Contador', 5400.00, 3),
+('OlÃ­via Cardoso', 'Assistente Financeira', 2800.00, 3),
+('Paulo Henrique', 'Tesoureiro', 5100.00, 3),
+('Quezia Almeida', 'Controladoria', 6200.00, 3),
+('Rafael Pires', 'Faturamento', 3500.00, 3),
+
+('Sabrina Teixeira', 'Coordenadora de LogÃ­stica', 6700.00, 4),
+('Tiago Andrade', 'Analista de Estoque', 3900.00, 4),
+('Ursula Batista', 'Compradora', 4400.00, 4),
+('VinÃ­cius Moraes', 'Conferente', 2500.00, 4),
+('Wesley Araujo', 'Motorista', 2400.00, 4),
+('XÃªnia Duarte', 'Assistente de Almoxarifado', 2300.00, 4),
+
+('Yasmin Castro', 'Analista de Marketing', 4300.00, 5),
+('Arthur Melo', 'Designer GrÃ¡fico', 4100.00, 5),
+('Beatriz Freitas', 'Social Media', 3600.00, 5),
+('Caio Peixoto', 'Copywriter', 3900.00, 5),
+('Debora Vieira', 'Gestora de TrÃ¡fego', 5200.00, 5),
+('Enzo Cavalcante', 'Assistente de Marketing', 2400.00, 5),
+
+('Fernanda MagalhÃ£es', 'Supervisora de Atendimento', 4800.00, 6),
+('Gustavo Linhares', 'Atendente', 2100.00, 6),
+('Helena Prado', 'Atendente', 2100.00, 6),
+('Igor Tavares', 'Analista de Suporte ao Cliente', 3400.00, 6),
+('Juliana Pessoa', 'Ouvidoria', 3700.00, 6),
+('Kevin Souza', 'Recepcionista', 2000.00, 6);
+
+COMMIT;
+
+-- SELECTs sugeridos para testes apÃ³s a carga
+-- 1) VisÃ£o geral com JOIN e uso de AS
+SELECT
+    f.id AS id_funcionario,
+    f.nome AS funcionario,
+    f.cargo AS cargo,
+    f.salario AS salario,
+    d.nome AS departamento,
+    d.sigla AS sigla_departamento
+FROM funcionario AS f
+INNER JOIN departamento AS d
+    ON f.departamento_id = d.id
+ORDER BY d.nome, f.nome;
+
+-- 2) FuncionÃ¡rios do departamento de TI
+SELECT
+    f.nome AS funcionario,
+    f.cargo AS cargo,
+    f.salario AS salario
+FROM funcionario AS f
+INNER JOIN departamento AS d
+    ON f.departamento_id = d.id
+WHERE d.sigla = 'TI'
+ORDER BY f.nome;
+
+-- 3) MÃ©dia salarial por departamento
+SELECT
+    d.nome AS departamento,
+    ROUND(AVG(f.salario), 2) AS media_salarial
+FROM funcionario AS f
+INNER JOIN departamento AS d
+    ON f.departamento_id = d.id
+GROUP BY d.nome
+ORDER BY d.nome;
+
+-- 4) UPDATE com JOIN (aumentar salÃ¡rios do Marketing em 8%)
+UPDATE funcionario AS f
+SET salario = salario * 1.08
+FROM departamento AS d
+WHERE f.departamento_id = d.id
+  AND d.sigla = 'MKT';
+
+-- 5) SELECT para conferir o UPDATE
+SELECT
+    f.nome AS funcionario,
+    f.salario AS novo_salario,
+    d.sigla AS departamento
+FROM funcionario AS f
+INNER JOIN departamento AS d
+    ON f.departamento_id = d.id
+WHERE d.sigla = 'MKT'
+ORDER BY f.nome;
+
+-- 6) DELETE de teste com JOIN (excluir recepcionista do Atendimento)
+DELETE FROM funcionario AS f
+USING departamento AS d
+WHERE f.departamento_id = d.id
+  AND d.sigla = 'ATD'
+  AND f.cargo = 'Recepcionista';
+
+-- 7) SELECT final de conferÃªncia
+SELECT
+    f.id,
+    f.nome,
+    f.cargo,
+    d.nome AS departamento
+FROM funcionario AS f
+INNER JOIN departamento AS d
+    ON f.departamento_id = d.id
+ORDER BY f.id;
